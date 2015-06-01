@@ -69,7 +69,9 @@ struct option longopts[] =
 zebra_capabilities_t _caps_p [] = 
 {
   ZCAP_NET_ADMIN,
+#if 0
   ZCAP_SYS_ADMIN,
+#endif
   ZCAP_NET_RAW,
 };
 
