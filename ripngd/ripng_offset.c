@@ -141,8 +141,7 @@ ripng_offset_list_set (struct vty *vty, const char *alist,
   /* Get offset-list structure with interface name. */
   offset = ripng_offset_list_get (ifname);
 
-  if (offset->direct[direct].alist_name)
-    free (offset->direct[direct].alist_name);
+  free (offset->direct[direct].alist_name);
   offset->direct[direct].alist_name = strdup (alist);
   offset->direct[direct].metric = metric;
 
@@ -182,16 +181,14 @@ ripng_offset_list_unset (struct vty *vty, const char *alist,
 
   if (offset)
     {
-      if (offset->direct[direct].alist_name)
-	free (offset->direct[direct].alist_name);
+      free (offset->direct[direct].alist_name);
       offset->direct[direct].alist_name = NULL;
 
       if (offset->direct[RIPNG_OFFSET_LIST_IN].alist_name == NULL &&
 	  offset->direct[RIPNG_OFFSET_LIST_OUT].alist_name == NULL)
 	{
 	  listnode_delete (ripng_offset_list_master, offset);
-	  if (offset->ifname)
-	    free (offset->ifname);
+	  free (offset->ifname);
 	  ripng_offset_list_free (offset);
 	}
     }
@@ -349,12 +346,9 @@ offset_list_cmp (struct ripng_offset_list *o1, struct ripng_offset_list *o2)
 static void
 offset_list_del (struct ripng_offset_list *offset)
 {
-  if (OFFSET_LIST_IN_NAME (offset))
-    free (OFFSET_LIST_IN_NAME (offset));
-  if (OFFSET_LIST_OUT_NAME (offset))
-    free (OFFSET_LIST_OUT_NAME (offset));
-  if (offset->ifname)
-    free (offset->ifname);
+  free (OFFSET_LIST_IN_NAME (offset));
+  free (OFFSET_LIST_OUT_NAME (offset));
+  free (offset->ifname);
   ripng_offset_list_free (offset);
 }
 
